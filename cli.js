@@ -38,4 +38,4 @@ const interestingSize = cli.input.find( input => {
 const pathToUse = cli.input.find( input => {
     return input.trim; // only strings will return true
 });
-spaceHogs(pathToUse, interestingSize).then(process.exit);
+spaceHogs(pathToUse, interestingSize); //.then(process.exit);

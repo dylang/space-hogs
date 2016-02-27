@@ -1,9 +1,9 @@
 {
-  "name": "space-hog",
+  "name": "space-hogs",
   "version": "1.0.0",
   "description": "Discover surprisingly large directories",
   "license": "MIT",
-  "repository": "dylang/space-hog",
+  "repository": "dylang/space-hogs",
   "author": {
     "name": "Dylan Greene",
     "email": "dylang@gmail.com",
