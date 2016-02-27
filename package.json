@@ -1,0 +1,55 @@
+{
+  "name": "space-hog",
+  "version": "1.0.0",
+  "description": "Discover surprisingly large directories",
+  "license": "MIT",
+  "repository": "dylang/space-hog",
+  "author": {
+    "name": "Dylan Greene",
+    "email": "dylang@gmail.com",
+    "url": "https://github.com/dylang"
+  },
+  "bin": "cli.js",
+  "engines": {
+    "node": ">=4"
+  },
+  "scripts": {
+    "start": "./bin/cli",
+    "test": "xo && ava"
+  },
+  "files": [
+    "index.js",
+    "cli.js"
+  ],
+  "keywords": [
+    "space",
+    "du",
+    "usage",
+    "disk",
+    "available"
+  ],
+  "dependencies": {
+    "es6-promise-series": "^0.2.0",
+    "execa": "^0.2.2",
+    "loud-rejection": "^1.2.1",
+    "meow": "^3.7.0",
+    "pad-left": "^2.0.1",
+    "pretty-bytes": "^3.0.1",
+    "throat": "^2.0.2"
+  },
+  "devDependencies": {
+    "ava": "^0.11.0",
+    "xo": "^0.12.1"
+  },
+  "xo": {
+    "space": 4,
+    "rules": {
+      "no-warning-comments": [
+        0
+      ],
+      "global-require": [
+        0
+      ]
+    }
+  }
+}
