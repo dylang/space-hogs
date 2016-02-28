@@ -26,8 +26,8 @@ const cli = meow({
 
 `});
 
-const interestingSize = cli.input.find(Number.isInteger);
-const pathToUse = cli.input.find(isString);
-const depth = cli.flags.depth;
+const userInterestingSizeMB = cli.input.find(Number.isInteger);
+const startPath = cli.input.find(isString);
+const maxDepth = cli.flags.depth;
 
-spaceHogs({pathToUse, interestingSize, depth}).then(process.exit);
+spaceHogs({startPath, userInterestingSizeMB, maxDepth}).then(process.exit);
