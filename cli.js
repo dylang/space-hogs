@@ -2,7 +2,6 @@
 'use strict';
 
 const updateNotifier = require('update-notifier');
-
 const meow = require('meow');
 const isString = require('util').isString;
 const spaceHogs = require('./');
@@ -27,7 +26,6 @@ const cli = meow({
       $ space-hogs 1000
 
 `});
-
 
 updateNotifier({pkg: cli.pkg}).notify();
 
