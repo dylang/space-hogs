@@ -2,10 +2,27 @@
 
 const spawn = require('./spawn');
 const path = require('path');
+const isString = require('util').isString;
 
 // We use MB throughout the application
-function kbToMB(str) {
-    return parseInt(str, 10) / 1000000;
+function bytesToMB(bytes) {
+    return bytes / 1000000; // should this be a power of 2?
+}
+
+function duOutputToObject(raw) {
+    return raw.split('\n')
+        .reduce((acc, line) => {
+            const sizeDir = line.split('\t');
+            const size = parseInt(sizeDir[0], 10);
+            const pathName = sizeDir[1];
+
+            if (sizeDir.length !== 2 || !isString(pathName) || !Number.isInteger(size)) {
+                return acc;
+            }
+
+            acc[pathName.substr(2)] = bytesToMB(size);
+            return acc;
+        }, {});
 }
 
 module.exports = function du(dir) {
@@ -28,14 +45,10 @@ module.exports = function du(dir) {
     const absoluteCWD = path.resolve(dir);
 
     return spawn('du', args, {cwd: absoluteCWD}).then(output => {
-        return output.stdout.split('\n').reduce((acc, line) => {
-            const sizeDir = line.split('\t');
-            acc[sizeDir[1].substr(2)] = kbToMB(sizeDir[0]);
-            return acc;
-        }, {});
-    }, err => {
-        console.log('du command failed:', err.message);
-        console.log('attempted:', ['du'].concat(args).join(' '), {cwd: absoluteCWD});
+        return duOutputToObject(output.stdout);
+    }).catch(err => {
+        console.log('du command failed:', absoluteCWD, err.message);
+        return duOutputToObject(err.stdout);
     });
 };
 

@@ -26,17 +26,23 @@ module.exports = function (options) {
     const userInterestingSizeBytes = parseInt(userInterestingSizeMB, 10);
 
     let sizeDisplayed = 0;
-    let interestingSize = 0;
     let startPathSize = 0;
-    let indentSize = 0;
     let startSizeString = '';
+    let interestingSize = 0;
+    let indentSize = 0;
 
     function outputStart(startSizeString, startPath, interestingSize) {
         const fullPath = tildify(path.resolve(startPath));
+
         console.log(`${startSizeString} ${fullPath}`);
+
         if (startPathSize > interestingSize) {
             console.log(`Directories larger than ${toMB(interestingSize)}`);
         }
+    }
+
+    function outputAlreadySmall() {
+        console.log('Smaller than 1 MB, nice work!');
     }
 
     function outputLargeDirectory(pathname, size) {
@@ -44,14 +50,14 @@ module.exports = function (options) {
     }
 
     function outputRemainingSpace(sizeDisplayed) {
-        const remainingSpace = toMB(startPathSize - sizeDisplayed);
-        if (remainingSpace !== 0) {
-            console.log(`└── ${pad(remainingSpace, indentSize, ' ')} ${percentage((startPathSize - sizeDisplayed) / startPathSize)} (everything else)`);
+        const remainingSpace = startPathSize - sizeDisplayed;
+        if (Math.round(remainingSpace) !== 0) {
+            console.log(`└── ${pad(toMB(remainingSpace), indentSize, ' ')} ${percentage((startPathSize - sizeDisplayed) / startPathSize)} (everything else)`);
         }
     }
 
     function outputTotal() {
-        if (startPathSize > 0) {
+        if (Math.round(startPathSize) > 0) {
             console.log(`    ${pad(startSizeString, indentSize, ' ')} Total`);
         }
     }
@@ -60,6 +66,7 @@ module.exports = function (options) {
         return du(parentPath).then(dirSizes => {
             if (options.isDebugMode) {
                 console.log(parentPath, depth);
+                console.log(dirSizes);
             }
 
             if (!dirSizes) {
@@ -71,12 +78,21 @@ module.exports = function (options) {
                 interestingSize = Math.ceil(userInterestingSizeBytes || startPathSize * DEFAULT_OUTLIER_SIZE, 1);
                 startSizeString = toMB(startPathSize);
                 indentSize = startSizeString.length;
-                outputStart(startSizeString, startPath, interestingSize);
+
+                if (Math.round(startPathSize) > 0) {
+                    outputStart(startSizeString, startPath, interestingSize);
+                } else {
+                    return outputAlreadySmall();
+                }
             }
 
             const recursivePromises = Object.keys(dirSizes).map(pathName => {
                 const size = dirSizes[pathName];
                 const fullPath = path.join(parentPath, pathName);
+
+                if (Number.isNaN(size)) {
+                    return false;
+                }
 
                 // current directory
                 if (!pathName) {
