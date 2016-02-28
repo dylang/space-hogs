@@ -2,6 +2,7 @@
 
 > Discover surprisingly large directories from the command line.
 
+
 ```
 ~/projects/npm $ space-hogs
 151 MB ~/projects/npm
@@ -54,6 +55,9 @@ $ space-hogs --help
       $ space-hogs node_modules 5 --depth=0
       $ space-hogs 1000
 ```
+
+**Note** *As of Feb 28, 2016 `space-hogs` requires a version of `du` newer than what OS X comes with. You can upgrade with `brew install coreutils`,
+ or wait until I have update `space-hogs` for the version of `du` most people probably have as default.*
 
 ### Tips
 
