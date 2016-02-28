@@ -94,14 +94,12 @@ Here's some ideas:
 
 ### Troubleshooting
 
-* This is meant for projects, not for checking your entire disk, or even all of /usr/.
+* This is meant for projects, *not for checking your entire disk, or even all of `/usr/`*.
 * Add `--debug` and to get some debug info that will be helpful for creating tickets.
-* Windows is not yet supported.
+* Windows is not yet supported
 * Versions of node before 4 are not supported.
 
 ## Inspiration
-
-[![AVA](media/sindre-twitter.png)](https://twitter.com/sindresorhus/status/698932733935034368)
 
 Super awesome and prolific node module creator Sindre Sorhus has a [repo for sharing ideas for new modules](https://github.com/sindresorhus/module-requests/issues).
 On Feb 10, 2016, I submitted a proposal for [space-hogs: cli for discovering surprisingly large directories](https://github.com/sindresorhus/module-requests/issues/59).
