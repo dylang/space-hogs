@@ -1,6 +1,6 @@
 {
   "name": "space-hogs",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Discover surprisingly large directories from the command line",
   "license": "MIT",
   "repository": "dylang/space-hogs",
@@ -37,7 +37,8 @@
     "meow": "^3.7.0",
     "pad-left": "^2.0.1",
     "throat": "^2.0.2",
-    "tildify": "^1.1.2"
+    "tildify": "^1.1.2",
+    "update-notifier": "^0.6.1"
   },
   "devDependencies": {
     "ava": "^0.12.0",
