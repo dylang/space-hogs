@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 'use strict';
+require('loud-rejection')();
 
 const updateNotifier = require('update-notifier');
 const meow = require('meow');
@@ -32,5 +33,6 @@ updateNotifier({pkg: cli.pkg}).notify();
 const userInterestingSizeMB = cli.input.find(Number.isInteger);
 const startPath = cli.input.find(isString);
 const maxDepth = cli.flags.depth;
+const isDebugMode = cli.flags.debug;
 
-spaceHogs({startPath, userInterestingSizeMB, maxDepth}).then(process.exit);
+spaceHogs({startPath, userInterestingSizeMB, maxDepth, isDebugMode}).then(process.exit);

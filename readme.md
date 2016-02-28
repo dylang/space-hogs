@@ -92,6 +92,13 @@ Here's some ideas:
 * This project uses the [AVA test runner](https://github.com/sindresorhus/ava), I recommend trying it!
 * Help me improve the coverage.
 
+### Troubleshooting
+
+* This is meant for projects, not for checking your entire disk, or even all of /usr/.
+* Add `--debug` and to get some debug info that will be helpful for creating tickets.
+* Windows is not yet supported.
+* Versions of node before 4 are not supported.
+
 ## Inspiration
 
 [![AVA](media/sindre-twitter.png)](https://twitter.com/sindresorhus/status/698932733935034368)

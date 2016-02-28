@@ -5,5 +5,5 @@ import du from '../util/du';
 
 test('du', async function(t) {
     const output = await du('./fixtures');
-    t.same(output, {'': 0.004});
+    t.same(output, {'-': 0.002741, '': 0.00301});
 });

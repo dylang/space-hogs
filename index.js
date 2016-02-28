@@ -1,7 +1,4 @@
 'use strict';
-
-require('loud-rejection')();
-
 const du = require('./util/du');
 const percentage = require('./util/percentage');
 const toMB = require('./util/to-mb');
@@ -61,6 +58,14 @@ module.exports = function (options) {
 
     function checkPath(parentPath, depth) {
         return du(parentPath).then(dirSizes => {
+            if (options.isDebugMode) {
+                console.log(parentPath, depth);
+            }
+
+            if (!dirSizes) {
+                return false;
+            }
+
             if (parentPath === startPath) {
                 startPathSize = dirSizes[''];
                 interestingSize = Math.ceil(userInterestingSizeBytes || startPathSize * DEFAULT_OUTLIER_SIZE, 1);
@@ -113,8 +118,19 @@ module.exports = function (options) {
         });
     }
 
-    return checkPath(startPath, 0).then(() => {
-        outputRemainingSpace(sizeDisplayed);
-        outputTotal();
-    });
+    function start() {
+        return checkPath(startPath, 0).then(() => {
+            outputRemainingSpace(sizeDisplayed);
+            outputTotal();
+        });
+    }
+
+    if (options.isDebugMode) {
+        const os = require('os');
+        console.log('node', process.version);
+        console.log('platform', os.platform(), os.release());
+        return du.debug().then(start);
+    }
+
+    return start();
 };
