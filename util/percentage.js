@@ -1,10 +1,10 @@
 'use strict';
 
 function percentage(num) {
-    const max = 4;
-    const percent = Math.ceil(num * 100 / (100/max));
+    const MAX_CHARACTERS = 4;
+    const relativePercentage = Math.ceil(num * 100 / (100 / MAX_CHARACTERS));
 
-    return `[${'▒'.repeat(percent)}${' '.repeat(max-percent)}]`;
+    return `[${'▒'.repeat(relativePercentage)}${' '.repeat(MAX_CHARACTERS - relativePercentage)}]`;
 }
 
 module.exports = percentage;

@@ -1,7 +1,7 @@
 {
   "name": "space-hogs",
   "version": "1.0.0",
-  "description": "Discover surprisingly large directories",
+  "description": "CLI app for discovering surprisingly large directories",
   "license": "MIT",
   "repository": "dylang/space-hogs",
   "author": {
@@ -14,8 +14,9 @@
     "node": ">=4"
   },
   "scripts": {
-    "start": "./bin/cli",
-    "test": "xo && ava"
+    "start": "./cli.js",
+    "test": "xo && ava && npm start",
+    "ava": "ava"
   },
   "files": [
     "index.js",
@@ -34,11 +35,11 @@
     "loud-rejection": "^1.2.1",
     "meow": "^3.7.0",
     "pad-left": "^2.0.1",
-    "pretty-bytes": "^3.0.1",
-    "throat": "^2.0.2"
+    "throat": "^2.0.2",
+    "tildify": "^1.1.2"
   },
   "devDependencies": {
-    "ava": "^0.11.0",
+    "ava": "^0.12.0",
     "xo": "^0.12.1"
   },
   "xo": {

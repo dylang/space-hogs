@@ -4,27 +4,38 @@ require('loud-rejection')();
 
 const du = require('./util/du');
 const percentage = require('./util/percentage');
-const toMB = require('./util/nice-size');
+const toMB = require('./util/to-mb');
 const path = require('path');
 const pad = require('pad-left');
 const series = require('es6-promise-series');
+const tildify = require('tildify');
 
+// Factor I determined to make interesting results
+// Can be overwritten with absolute value on the command line
+const DEFAULT_OUTLIER_SIZE = 0.06;
 
-module.exports = function (startPath, userInterestingSizeMB) {
+module.exports = function (startPath, userInterestingSizeMB, maxDepth) {
     if (typeof startPath !== 'string') {
         startPath = '.';
     }
 
     startPath = path.join(startPath, '/');
 
-    const userInterestingSizeBytes = parseInt(userInterestingSizeMB, 10) * 1000 * 1000;
-    const absolutePath = path.resolve(startPath);
+    const userInterestingSizeBytes = parseInt(userInterestingSizeMB, 10);
 
     let sizeDisplayed = 0;
     let interestingSize = 0;
     let startPathSize = 0;
     let indentSize = 0;
     let startSizeString = '';
+
+    function outputStart(startSizeString, startPath, interestingSize) {
+        const fullPath = tildify(path.resolve(startPath));
+        console.log(`${startSizeString} ${fullPath}`);
+        if (startPathSize > interestingSize) {
+            console.log(`Directories larger than ${toMB(interestingSize)}`);
+        }
+    }
 
     function outputLargeDirectory(pathname, size) {
         console.log(`├── ${pad(toMB(size), indentSize, ' ')} ${percentage(size / startPathSize)} ${path.join(path.sep, pathname.replace(startPath, ''))}`);
@@ -33,25 +44,24 @@ module.exports = function (startPath, userInterestingSizeMB) {
     function outputRemainingSpace(sizeDisplayed) {
         const remainingSpace = toMB(startPathSize - sizeDisplayed);
         if (remainingSpace !== 0) {
-            console.log(`└── ${pad(remainingSpace, indentSize, ' ')} ${percentage((startPathSize-sizeDisplayed) / startPathSize)} (everything else)`);
+            console.log(`└── ${pad(remainingSpace, indentSize, ' ')} ${percentage((startPathSize - sizeDisplayed) / startPathSize)} (everything else)`);
         }
     }
 
     function outputTotal() {
-        console.log(`    ${pad(startSizeString, indentSize, ' ')} Total`)
+        if (startPathSize > 0) {
+            console.log(`    ${pad(startSizeString, indentSize, ' ')} Total`);
+        }
     }
 
-    function checkPath(parentPath) {
-
+    function checkPath(parentPath, depth) {
         return du(parentPath).then(dirSizes => {
             if (parentPath === startPath) {
                 startPathSize = dirSizes[''];
-                interestingSize = userInterestingSizeBytes || startPathSize / 16.5; //factor I determined to make interesting results
+                interestingSize = Math.ceil(userInterestingSizeBytes || startPathSize * DEFAULT_OUTLIER_SIZE, 1);
                 startSizeString = toMB(startPathSize);
                 indentSize = startSizeString.length;
-
-                console.log(startSizeString, absolutePath);
-                console.log(`Largest children directories, each larger than ${toMB(interestingSize)}`);
+                outputStart(startSizeString, startPath, interestingSize);
             }
 
             const recursivePromises = Object.keys(dirSizes).map(pathName => {
@@ -60,12 +70,16 @@ module.exports = function (startPath, userInterestingSizeMB) {
 
                 // current directory
                 if (!pathName) {
-                    return;
+                    return false;
                 }
 
                 // too small to care
                 if (size < interestingSize) {
-                    return;
+                    return false;
+                }
+
+                if (depth > maxDepth) {
+                    return false;
                 }
 
                 // don't deep dive hidden dirs
@@ -73,10 +87,10 @@ module.exports = function (startPath, userInterestingSizeMB) {
                 if (pathName.startsWith('.')) {
                     sizeDisplayed += size;
                     outputLargeDirectory(fullPath, size);
-                    return;
+                    return false;
                 }
 
-                return checkPath(fullPath).then(resultArray => {
+                return checkPath(fullPath, depth + 1).then(resultArray => {
                     // if no outlier directories are returned
                     // then the current path is worth logging.
                     if (!resultArray.length) {
@@ -85,19 +99,17 @@ module.exports = function (startPath, userInterestingSizeMB) {
                     }
                     return size;
                 });
-
             })
-                // easy way to remove empty values
-                .filter(Boolean);
+            // easy way to remove empty values
+            .filter(Boolean);
 
             // series so they return in order, and it is also somehow faster
             return series(recursivePromises);
         });
     }
 
-    return checkPath(startPath).then(() => {
+    return checkPath(startPath, 0).then(() => {
         outputRemainingSpace(sizeDisplayed);
         outputTotal();
-
     });
 };

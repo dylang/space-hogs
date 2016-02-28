@@ -1,41 +1,48 @@
 #!/usr/bin/env node
 'use strict';
 const meow = require('meow');
-
+const isString = require('util').isString;
 const spaceHogs = require('./');
 
-const cli = meow(`
+const cli = meow({
+    inferType: true,
+    description: 'Discover surprisingly large directories.',
+    help:
+`
     Usage
-      space-hogs [input]
-  
+      space-hogs [path] [size] [--depth=number]
+
     Options
-      path   Path to scan. Defaults to the current path.
-      size   Minimum size. Defaults to a % of the total size.
-  
-    Example
-      npm $ space-hogs
-      63.61 MB .
-      ├──   2 MB /html
-      ├──   1 MB /node_modules/read-package-json
-      ├──   2 MB /test/tap
-      ├──   1 MB /node_modules/init-package-json/node_modules
-      ├──   1 MB /node_modules/nock/node_modules
-      ├──   1 MB /node_modules/node-gyp/node_modules
-      ├──   1 MB /node_modules/npm-registry-mock/fixtures
-      ├──   2 MB /node_modules/request/node_modules
-      ├──   1 MB /node_modules/node-gyp/gyp/pylib/gyp
-      ├──   1 MB /node_modules/tap/node_modules/runforcover/node_modules/bunker/node_modules/burrito
-      ├──   1 MB /node_modules/npm-registry-couchapp/node_modules/couchapp/node_modules/http-proxy/examples/node_modules/connect
-      ├──   2 MB /node_modules/npm-registry-couchapp/node_modules/couchapp/node_modules/nano/node_modules/request/node_modules
-      ├──   2 MB /node_modules/npm-registry-couchapp/node_modules/couchapp/node_modules/nano/node_modules/follow/node_modules/request/node_modules
-      └──  45 MB Everything else
-`);
+      path (str)   Path to scan. Defaults to the current path.
+      size (int)   Minimum size in MB. Defaults to 6% of the total MB.
+      -d, --depth  Number of directories to dive into. 0 = none. Defaults to all.
 
+    Examples
 
-const interestingSize = cli.input.find( input => {
-    return Number.isInteger(parseInt(input, 10));
-});
-const pathToUse = cli.input.find( input => {
-    return input.trim; // only strings will return true
-});
-spaceHogs(pathToUse, interestingSize); //.then(process.exit);
+      ~/projects/npm ❯ space-hogs
+      151 MB ~/projects/npm
+      Largest children directories, each larger than 9 MB
+      ├──  31 MB [▒   ] /.git
+      ├──   9 MB [▒   ] /node_modules/npm-registry-couchapp/node_modules
+      ├──  12 MB [▒   ] /node_modules/tap/node_modules/nyc/node_modules
+      ├──  20 MB [▒   ] /node_modules/standard/node_modules/standard-engine/node_modules/eslint/node_modules
+      ├──  17 MB [▒   ] /node_modules/standard/node_modules/standard-format/node_modules/esformatter-jsx/node_modules/babel-core/node_modules
+      └──  62 MB [▒▒  ] (everything else)
+          151 MB Total
+
+      ~/projects/npm ❯ space-hogs node_modules 5 --depth=0
+      114 MB ~/projects/npm/node_modules
+      Largest children directories, each larger than 5 MB
+      ├──   6 MB [▒   ] /node-gyp
+      ├──  11 MB [▒   ] /npm-registry-couchapp
+      ├──  27 MB [▒   ] /tap
+      ├──  56 MB [▒▒  ] /standard
+      └──  13 MB [▒   ] (everything else)
+          114 MB Total
+`});
+
+const interestingSize = cli.input.find(Number.isInteger);
+const pathToUse = cli.input.find(isString);
+const depth = cli.flags.depth;
+
+spaceHogs(pathToUse, interestingSize, depth).then(process.exit);
