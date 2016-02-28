@@ -57,9 +57,9 @@ $ space-hogs --help
 
 ### Tips
 
-* I don't recommend using this on the root of your drive, there are better tools for exploring your entire disk.
-* There isn't an API yet.
-* Test coverage isn't great yet.
+* I don't recommend using this on the root of your drive, there are [better tools](#similar-tools) for exploring your entire disk.
+* There isn't a real API yet, it will always output to the console, but I hope to have a promise-based API.
+* Test coverage isn't really there yet.
 
 ## Contributions
 
@@ -67,25 +67,30 @@ I'm happy to take contributions.
 
 Here's some ideas:
 
-### Color
+### Colors
 
 * Show me what it should look like, or make a PR using [chalk](https://github.com/chalk/chalk).
-* Even though all terminals should have a black background, some people still use white, and we should be attentive to that when picking colors.
+* Even though all terminals should have a black background, some people use white, and we should be attentive to that when picking colors.
 
 ### API + Refactoring
 
-* I feel that my recursive promise implementation could be done better with Observables/RXjs.
+* I feel that my recursive promise implementation could be done better with [observables/RxJS](https://github.com/Reactive-Extensions/RxJS).
 * I think this will make it possible to have a good API.
-* If this doesn't make sense it's probably because I don't know enough about observables/RXjs.
+* If this doesn't make sense it's probably because I don't know enough about observables/RxJS.
 
-### Cross-platform
+### Cross-platform (aka Windows support)
 
 * I currently use `du` for calculating disk usage. This won't work in Windows.
 * If you would like to help make it work in Windows let me know and start working on a pull request.
 
+### Performance
+
+* I wonder if there are faster ways to get disk usage than `du` using native code. Ideas?
+
 ### Test Coverage
 
 * This project uses the [AVA test runner](https://github.com/sindresorhus/ava), I recommend trying it!
+* Help me improve the coverage.
 
 ## Inspiration
 
