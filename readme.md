@@ -1,6 +1,31 @@
 # Space Hogs [![Build Status](https://travis-ci.org/dylang/space-hogs.svg?branch=master)](https://travis-ci.org/dylang/space-hogs)
 
-> Discover surprisingly large directories from the command line
+> Discover surprisingly large directories from the command line.
+
+```
+~/projects/npm $ space-hogs
+151 MB ~/projects/npm
+Largest children directories, each larger than 9 MB
+├──  31 MB [▒   ] /.git
+├──   9 MB [▒   ] /node_modules/npm-registry-couchapp/node_modules
+├──  12 MB [▒   ] /node_modules/tap/node_modules/nyc/node_modules
+├──  20 MB [▒   ] /node_modules/standard/node_modules/standard-engine/node_modules/eslint/node_modules
+├──  17 MB [▒   ] /node_modules/standard/node_modules/standard-format/node_modules/esformatter-jsx/node_modules/babel-core/node_modules
+└──  62 MB [▒▒  ] (everything else)
+    151 MB Total
+```
+
+```
+~/projects/npm $ space-hogs node_modules 5 --depth=0
+114 MB ~/projects/npm/node_modules
+Largest children directories, each larger than 5 MB
+├──   6 MB [▒   ] /node-gyp
+├──  11 MB [▒   ] /npm-registry-couchapp
+├──  27 MB [▒   ] /tap
+├──  56 MB [▒▒  ] /standard
+└──  13 MB [▒   ] (everything else)
+    114 MB Total
+```
 
 
 ## Install
@@ -25,36 +50,26 @@ $ space-hogs --help
 
     Examples
 
-      ~/projects/npm ❯ space-hogs
-      151 MB ~/projects/npm
-      Largest children directories, each larger than 9 MB
-      ├──  31 MB [▒   ] /.git
-      ├──   9 MB [▒   ] /node_modules/npm-registry-couchapp/node_modules
-      ├──  12 MB [▒   ] /node_modules/tap/node_modules/nyc/node_modules
-      ├──  20 MB [▒   ] /node_modules/standard/node_modules/standard-engine/node_modules/eslint/node_modules
-      ├──  17 MB [▒   ] /node_modules/standard/node_modules/standard-format/node_modules/esformatter-jsx/node_modules/babel-core/node_modules
-      └──  62 MB [▒▒  ] (everything else)
-          151 MB Total
-
-      ~/projects/npm ❯ space-hogs node_modules 5 --depth=0
-      114 MB ~/projects/npm/node_modules
-      Largest children directories, each larger than 5 MB
-      ├──   6 MB [▒   ] /node-gyp
-      ├──  11 MB [▒   ] /npm-registry-couchapp
-      ├──  27 MB [▒   ] /tap
-      ├──  56 MB [▒▒  ] /standard
-      └──  13 MB [▒   ] (everything else)
-          114 MB Total
+      $ space-hogs
+      $ space-hogs node_modules 5 --depth=0
+      $ space-hogs 1000
 ```
 
+###
+
+
 ## Contributions
+
+I'm happy to take contributions.
+
+Here's some ideas:
 
 ### Color
 
 * Show me what it should look like, or make a PR using [chalk](https://github.com/chalk/chalk).
 * Even though all terminals should have a black background, some people still use white, and we should be attentive to that when picking colors.
 
-### API, Refactoring
+### API + Refactoring
 
 * I feel that my recursive promise implementation could be done better with Observables/RXjs.
 * I think this will make it possible to have a good API.

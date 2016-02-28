@@ -1,1 +1,2 @@
-Some content
+Some content. I'm thinking about having something generate a bunch
+of directories and a couple MB of content to be a better fixture.

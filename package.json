@@ -1,7 +1,7 @@
 {
   "name": "space-hogs",
   "version": "1.0.0",
-  "description": "CLI app for discovering surprisingly large directories",
+  "description": "Discover surprisingly large directories from the command line",
   "license": "MIT",
   "repository": "dylang/space-hogs",
   "author": {

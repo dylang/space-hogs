@@ -1,5 +1,6 @@
 'use strict';
 
+// Nice way to show percentage. Not really necessary.
 function percentage(num) {
     const MAX_CHARACTERS = 4;
     const relativePercentage = Math.ceil(num * 100 / (100 / MAX_CHARACTERS));

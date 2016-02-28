@@ -2,7 +2,8 @@
 
 const spawn = require('./spawn');
 
-function toMB(str) {
+// We use MB throughout the application
+function kbToMB(str) {
     return parseInt(str, 10) / 1000;
 }
 
@@ -20,7 +21,7 @@ module.exports = function du(dir) {
     return spawn('du', ['--max-depth=1'], {cwd: dir}).then(output => {
         return output.stdout.split('\n').reduce((acc, line) => {
             const sizeDir = line.split('\t');
-            acc[sizeDir[1].substr(2)] = toMB(sizeDir[0]);
+            acc[sizeDir[1].substr(2)] = kbToMB(sizeDir[0]);
             return acc;
         }, {});
     });
