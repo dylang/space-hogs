@@ -1,6 +1,6 @@
 {
   "name": "space-hogs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Discover surprisingly large directories from the command line",
   "license": "MIT",
   "repository": "dylang/space-hogs",

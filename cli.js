@@ -14,9 +14,9 @@ const cli = meow({
       space-hogs [path] [size] [--depth=number]
 
     Options
-      path   Path to scan. Defaults to the current path.
-      size   Minimum size in MB. Defaults to 6% of the total MB.
-      depth  Number of directories to dive into. 0 = none. Defaults to all.
+      directory        Directory to scan. Defaults to the current directory.
+      size             Minimum size in MB. Defaults to 6% of the total MB.
+      --depth=number   Number of sub-directories to dive into. 0 = none. Defaults to all.
 
     Examples
 
@@ -30,4 +30,4 @@ const interestingSize = cli.input.find(Number.isInteger);
 const pathToUse = cli.input.find(isString);
 const depth = cli.flags.depth;
 
-spaceHogs(pathToUse, interestingSize, depth).then(process.exit);
+spaceHogs({pathToUse, interestingSize, depth}).then(process.exit);

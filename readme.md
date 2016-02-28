@@ -44,9 +44,9 @@ $ space-hogs --help
       space-hogs [path] [size] [--depth=number]
 
     Options
-      path   Path to scan. Defaults to the current path.
-      size   Minimum size in MB. Defaults to 6% of the total MB.
-      depth  Number of directories to dive into. 0 = none. Defaults to all.
+      directory        Directory to scan. Defaults to the current directory.
+      size             Minimum size in MB. Defaults to 6% of the total MB.
+      --depth=number   Number of sub-directories to dive into. 0 = none. Defaults to all.
 
     Examples
 
@@ -55,8 +55,11 @@ $ space-hogs --help
       $ space-hogs 1000
 ```
 
-###
+### Tips
 
+* I don't recommend using this on the root of your drive, there are better tools for exploring your entire disk.
+* There isn't an API yet.
+* Test coverage isn't great yet.
 
 ## Contributions
 
@@ -80,6 +83,10 @@ Here's some ideas:
 * I currently use `du` for calculating disk usage. This won't work in Windows.
 * If you would like to help make it work in Windows let me know and start working on a pull request.
 
+### Test Coverage
+
+* This project uses the [AVA test runner](https://github.com/sindresorhus/ava), I recommend trying it!
+
 ## Inspiration
 
 Some projects at work were taking longer than I expected to `npm install`.
@@ -89,7 +96,7 @@ I was also running out of space on my Macbook Pro. A bug in a project had create
 
 Finding these large directories took a long time. It would have been easier if there was one tool to find them.
 
-Prolific node module creator Sindre Sorhus has a [repo for sharing ideas for new modules](https://github.com/sindresorhus/module-requests/issues).
+Super awesome and prolific node module creator Sindre Sorhus has a [repo for sharing ideas for new modules](https://github.com/sindresorhus/module-requests/issues).
 On Feb 10, 2016, I submitted a proposal for [space-hogs: cli for discovering surprisingly large directories](https://github.com/sindresorhus/module-requests/issues/59).
 There was a lot of interest, [including from Sindre](https://twitter.com/sindresorhus/status/698932733935034368), but nobody else had created it, I decided to see if I could create it myself.
 
