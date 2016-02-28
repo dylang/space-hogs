@@ -15,7 +15,6 @@ const tildify = require('tildify');
 const DEFAULT_OUTLIER_SIZE = 0.06;
 
 module.exports = function (options) {
-
     // this whole options section could be done better.
     let startPath = options.startPath;
     let userInterestingSizeMB = options.userInterestingSizeMB;
