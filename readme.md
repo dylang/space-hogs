@@ -94,16 +94,11 @@ Here's some ideas:
 
 ## Inspiration
 
-Some projects at work were taking longer than I expected to `npm install`.
-After some investigation, I found that a module that should have been a couple KB was accidentally over 100 MB.
-
-I was also running out of space on my Macbook Pro. A bug in a project had created gigs of temp files and not removed them.
-
-Finding these large directories took a long time. It would have been easier if there was one tool to find them.
+[![AVA](media/sindre-twitter.png)](https://twitter.com/sindresorhus/status/698932733935034368)
 
 Super awesome and prolific node module creator Sindre Sorhus has a [repo for sharing ideas for new modules](https://github.com/sindresorhus/module-requests/issues).
 On Feb 10, 2016, I submitted a proposal for [space-hogs: cli for discovering surprisingly large directories](https://github.com/sindresorhus/module-requests/issues/59).
-There was a lot of interest, [including from Sindre](https://twitter.com/sindresorhus/status/698932733935034368), but nobody else had created it, I decided to see if I could create it myself.
+There was a lot of interest, but nobody else created it, so I decided to see if I could.
 
 ## Similar Tools
 
