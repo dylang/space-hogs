@@ -110,6 +110,11 @@ There was a lot of interest, [including from Sindre](https://twitter.com/sindres
 * [WinDirStat](https://windirstat.info/) - Windows only, GUI only, shows every directory, not just the largest offenders.
 * [Grand Perspective](http://grandperspectiv.sourceforge.net/) - Mac only, GUI only, shows every directory, not just the largest offenders.
 
+### About the Author
+
+Hi! My name is **Dylan Greene**. When not overwhelmed with my two young kids I enjoy contributing
+to the open source community. I'm also a tech lead at [Opower](http://opower.com). [![@dylang](https://img.shields.io/badge/twitter-dylang-blue.svg)](https://twitter.com/dylang)
+
 ## License
 
 MIT © [Dylan Greene](https://github.com/dylang)
