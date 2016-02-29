@@ -6,7 +6,7 @@ const isString = require('util').isString;
 
 // We use MB throughout the application
 function bytesToMB(bytes) {
-    return bytes / 1000000; // should this be a power of 2?
+    return bytes / 1024; //000; // should this be a power of 2?
 }
 
 function duOutputToObject(raw) {
@@ -39,7 +39,7 @@ module.exports = function du(dir) {
     const args = [
         '-d',     // depth
         1,        // 1 = just the immediate children. in space-cows this would be 0.
-        '-b'      // use actual bytes used
+        '-k'      // 1k block size
     ];
 
     const absoluteCWD = path.resolve(dir);

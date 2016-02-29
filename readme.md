@@ -56,9 +56,6 @@ $ space-hogs --help
       $ space-hogs 1000
 ```
 
-**Note** *As of Feb 28, 2016 `space-hogs` requires a version of `du` newer than what OS X comes with. You can upgrade with `brew install coreutils`,
- or wait until I have update `space-hogs` for the version of `du` most people probably have as default.*
-
 ### Tips
 
 * I don't recommend using this on the root of your drive, there are [better tools](#similar-tools) for exploring your entire disk.
