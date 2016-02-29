@@ -5,8 +5,8 @@ const path = require('path');
 const isString = require('util').isString;
 
 // We use MB throughout the application
-function bytesToMB(bytes) {
-    return bytes / 1024; //000; // should this be a power of 2?
+function kbToMB(kb) {
+    return kb / 1024;
 }
 
 function duOutputToObject(raw) {
@@ -20,7 +20,7 @@ function duOutputToObject(raw) {
                 return acc;
             }
 
-            acc[pathName.substr(2)] = bytesToMB(size);
+            acc[pathName.substr(2)] = kbToMB(size);
             return acc;
         }, {});
 }
