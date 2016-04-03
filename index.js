@@ -6,6 +6,7 @@ const path = require('path');
 const pad = require('pad-left');
 const series = require('es6-promise-series');
 const tildify = require('tildify');
+const ora = require('ora');
 
 // Factor I determined to make interesting results
 // Can be overwritten with absolute value on the command line
@@ -23,6 +24,8 @@ module.exports = function (options) {
 
     startPath = path.join(startPath, '/');
 
+    const spinner = ora(`Getting recursive size of ${startPath} `);
+
     const userInterestingSizeBytes = parseInt(userInterestingSizeMB, 10);
 
     let sizeDisplayed = 0;
@@ -32,6 +35,8 @@ module.exports = function (options) {
     let indentSize = 0;
 
     function outputStart(startSizeString, startPath, interestingSize) {
+        spinner.stop();
+
         const fullPath = tildify(path.resolve(startPath));
 
         console.log(`${startSizeString} ${fullPath}`);
@@ -42,14 +47,20 @@ module.exports = function (options) {
     }
 
     function outputAlreadySmall() {
+        spinner.stop();
+
         console.log('Smaller than 1 MB, nice work!');
     }
 
     function outputLargeDirectory(pathname, size) {
+        spinner.stop();
+
         console.log(`├── ${pad(toMB(size), indentSize, ' ')} ${percentage(size / startPathSize)} ${path.join(path.sep, pathname.replace(startPath, ''))}`);
     }
 
     function outputRemainingSpace(sizeDisplayed) {
+        spinner.stop();
+
         const remainingSpace = startPathSize - sizeDisplayed;
         if (Math.round(remainingSpace) !== 0) {
             console.log(`└── ${pad(toMB(remainingSpace), indentSize, ' ')} ${percentage((startPathSize - sizeDisplayed) / startPathSize)} (everything else)`);
@@ -57,12 +68,16 @@ module.exports = function (options) {
     }
 
     function outputTotal() {
+        spinner.stop();
+
         if (Math.round(startPathSize) > 0) {
             console.log(`    ${pad(startSizeString, indentSize, ' ')} Total`);
         }
     }
 
     function checkPath(parentPath, depth) {
+        spinner.start();
+        spinner.text = `Checking ${parentPath}`;
         return du(parentPath).then(dirSizes => {
             if (options.isDebugMode) {
                 console.log(parentPath, depth);
@@ -136,6 +151,7 @@ module.exports = function (options) {
 
     function start() {
         return checkPath(startPath, 0).then(() => {
+            spinner.stop();
             outputRemainingSpace(sizeDisplayed);
             outputTotal();
         });
