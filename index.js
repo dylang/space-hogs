@@ -2,6 +2,7 @@
 const du = require('./util/du');
 const percentage = require('./util/percentage');
 const toMB = require('./util/to-mb');
+const fs = require('fs');
 const path = require('path');
 const pad = require('pad-left');
 const series = require('es6-promise-series');
@@ -20,6 +21,11 @@ module.exports = function (options) {
 
     if (typeof startPath !== 'string') {
         startPath = '.';
+    }
+
+    if (!fs.existsSync(startPath)) {
+        console.log(startPath, ': No such directory');
+        process.exit(1);
     }
 
     startPath = path.join(startPath, '/');
